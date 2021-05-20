@@ -37,8 +37,7 @@ namespace MQTTProducer
             var mqttClient = factory.CreateMqttClient();
 
             Random rnd = new Random();
-            int reading = rnd.Next(1000);
-            string payload = "{\"reading\":" + reading.ToString() + "}";
+            int reading = rnd.Next(1, 55);
 
             var options = new MqttClientOptionsBuilder()
                 .WithClientId(clientId)
@@ -49,7 +48,7 @@ namespace MQTTProducer
             Console.WriteLine("Sending message...");
             var message = new MqttApplicationMessageBuilder()
                 .WithTopic(topic)
-                .WithPayload(payload)
+                .WithPayload(reading.ToString())
                 .Build();
 
             await mqttClient.PublishAsync(message, CancellationToken.None);
